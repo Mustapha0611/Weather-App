@@ -146,10 +146,10 @@ button > img{
   border-radius:7px;
 }
 .location{
-  margin-top: 20px;
+  margin-top: 40px;
   color: white;
   text-align: center;
-  font-size: 1.5em;
+  font-size: 2em;
 }
 .date{
   color:white;
