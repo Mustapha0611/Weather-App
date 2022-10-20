@@ -9,7 +9,7 @@
         <button @click="findCity"><img src="@/assets/search.png"></button>
       </div>
       <div class="error" v-if="hasError">
-          <span>Enter a valid city </span>
+          <span>{{err}}</span>
         </div>
       <div class="weather-container" v-if="showForcast">
         <div class="location">
@@ -39,23 +39,28 @@ export default {
       api_key:'88a27c055097366c3e000a94df9ec2b3',
       // url:'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}',
       showForcast:false,
+      err:'',
       hasError:false
+      
     }
 
   },
   methods:{
     findCity(){
-      if(!this.city){
-        this.hasError = true
-      }else{
-        axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.api_key}&units=metric`)
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${this.api_key}&units=metric`)
         .then(res=>{
-          this.showForcast = true
           this.forcastInfo = res.data
           console.log(this.forcastInfo)
-          this.hasError = false
+          this.showForcast = true
+          this.hasError= false
         })
-      }
+        .catch(err=>{
+          if(err.response || !this.city){
+            this.hasError = true
+            this.err='Enter a valid location'
+            this.showForcast = false
+          }
+        })
     },
     getDate(){
       const date = new Date();
